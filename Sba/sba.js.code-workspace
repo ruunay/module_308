@@ -1,0 +1,34 @@
+{
+	"folders": [
+		{
+			"path": "../exercise-01-variables"
+		},
+		{
+			"path": "../exercise-02-objects-arrays"
+		},
+		{
+			"path": "../exercise-03-control-flow"
+		},
+		{
+			"path": "../exercise-04-loops-fundamentals"
+		},
+		{
+			"path": "../exercise-05-advanced-loops"
+		},
+		{
+			"path": "../exercise-06-functions"
+		},
+		{
+			"path": "../exercise-07-error-handling"
+		},
+		{
+			"path": "../exercise-08-dates"
+		},
+		{
+			"path": "../exercise-09-data-transformation"
+		},
+		{
+			"path": "../exercise-10-integration"
+		}
+	]
+}
