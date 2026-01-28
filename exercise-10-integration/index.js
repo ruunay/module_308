@@ -111,11 +111,16 @@ function getLearnerData(course, ag, submissions) {
     // TODO: Step 3 - Helper function to check if assignment is due
     function isAssignmentDue(assignment) {
         // TODO: Return true if assignment.due_at <= currentDate
+          const dueDate = new Date(assignment.due_at);
+        return dueDate <= currentDate;
     }
 
     // TODO: Step 4 - Helper function to check if submission is late
     function isSubmissionLate(submission, assignment) {
         // TODO: Compare submission.submission.submitted_at with assignment.due_at
+            const submittedDate = new Date(submission.submission.submitted_at);
+        const dueDate = new Date(assignment.due_at);
+        return submittedDate > dueDate;
     }
 
     // TODO: Step 5 - Helper function to calculate final score (with late penalty if needed)
@@ -126,11 +131,24 @@ function getLearnerData(course, ag, submissions) {
     // TODO: Step 6 - Helper function to find assignment by id
     function findAssignment(assignmentId) {
         // TODO: Search through ag.assignments to find matching id
+         for (const assignment of ag.assignments) {
+            if (assignment.id === assignmentId) {
+                return assignment;
+            }
+        }
+        return null;
     }
 
     // TODO: Step 7 - Get unique learner IDs from submissions
     function getUniqueLearnerIds() {
         // TODO: Extract unique learner_id values
+          const learnerIds = [];
+        for (const submission of submissions) {
+            if (!learnerIds.includes(submission.learner_id)) {
+                learnerIds.push(submission.learner_id);
+            }
+        }
+        return learnerIds;
     }
 
     // TODO: Step 8 - Main processing logic
@@ -160,15 +178,22 @@ function getLearnerData(course, ag, submissions) {
                 }
 
                 // TODO: Calculate final score with late penalty
-                const finalScore = calculateFinalScore(submission, assignment);
-
                 // TODO: Calculate percentage
+                // TODO: Add to result object
+                // TODO: Add to totals for weighted average
+              try {
+                    if (assignment.points_possible === 0) {
+                        throw new Error("Cannot divide by zero: points_possible is 0");
+                    }
+                } catch (error) {
+                    console.log(`Warning: ${error.message} for assignment ${assignment.id}`);
+                    continue;
+                }
+
+                const finalScore = calculateFinalScore(submission, assignment);
                 const percentage = finalScore / assignment.points_possible;
 
-                // TODO: Add to result object
                 result[assignment.id] = percentage;
-
-                // TODO: Add to totals for weighted average
                 totalScore += finalScore;
                 totalPossible += assignment.points_possible;
             }
@@ -213,6 +238,14 @@ try {
 } catch (error) {
     console.log("Error:", error.message);
 }
+
+const badAssignmentGroup = { ...AssignmentGroup, course_id: 999 };
+console.log("Test 1: Mismatched course_id");
+getLearnerData(CourseInfo, badAssignmentGroup, LearnerSubmissions);
+
+console.log("\nCongratulations! You've completed the integration exercise!");
+console.log("You now have all the skills needed for the SBA. Good luck!");
+
 
 // TODO: After completing the function, test with edge cases:
 // - What if points_possible is 0?

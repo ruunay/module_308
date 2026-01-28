@@ -31,6 +31,12 @@ const submission = {
 let isValidGroup;
 // (your code here)
 
+if (assignmentGroup.course_id === course.id) {
+    isValidGroup = true;
+} else {
+    isValidGroup = false;
+}
+
 
 // Task 2: Check if assignment is late
 // TODO: Compare submission.submission.submitted_at with assignment.due_at
@@ -39,6 +45,11 @@ let isValidGroup;
 let isLate;
 // (your code here)
 
+if (submission.submission.submitted_at > assignment.due_at) {
+    isLate = true;
+} else {
+    isLate = false;
+}
 
 // Task 3: Apply late penalty
 // TODO: Create a variable finalScore
@@ -46,6 +57,12 @@ let isLate;
 // Otherwise, use the original score
 let finalScore;
 // (your code here)
+
+if (isLate) {
+    finalScore = submission.submission.score - (assignment.points_possible * 0.1);
+} else {
+    finalScore = submission.submission.score;
+}
 
 
 // Task 4: Determine letter grade using if/else
@@ -55,6 +72,17 @@ const percentage = (finalScore / assignment.points_possible) * 100;
 let letterGrade;
 // (your code here)
 
+if (percentage >= 90) {
+    letterGrade = "A";
+} else if (percentage >= 80) {
+    letterGrade = "B";
+} else if (percentage >= 70) {
+    letterGrade = "C";
+} else if (percentage >= 60) {
+    letterGrade = "D";
+} else {
+    letterGrade = "F";
+}
 
 // Task 5: Use a switch statement to categorize assignment difficulty
 // TODO: Based on points_possible, categorize the assignment:
@@ -64,6 +92,20 @@ let difficulty;
 // Hint: You can switch on true and use case conditions like: case (points_possible <= 50):
 // (your code here)
 
+switch (true) {
+    case (assignment.points_possible <= 50):
+        difficulty = "Easy";
+        break;
+    case (assignment.points_possible <= 100):
+        difficulty = "Medium";
+        break;
+    case (assignment.points_possible <= 150):
+        difficulty = "Hard";
+        break;
+    default:
+        difficulty = "Very Hard";
+        break;
+}
 
 // Task 6: Nested if/else - Determine if submission should count
 // TODO: A submission should count if:
@@ -72,6 +114,13 @@ let difficulty;
 // Set shouldCount to true or false
 let shouldCount;
 // (your code here)
+
+if (isValidGroup) {
+    // Assuming all assignments are past due for this exercise
+    shouldCount = true;
+} else {
+    shouldCount = false;
+}
 
 
 // Task 7: Complex validation
@@ -83,6 +132,14 @@ let shouldCount;
 let isValidSubmission;
 // (your code here)
 
+if (assignment.points_possible > 0 && 
+    submission.submission.score >= 0 && 
+    submission.submission.score <= assignment.points_possible &&
+    submission.learner_id != null) {
+    isValidSubmission = true;
+} else {
+    isValidSubmission = false;
+}
 
 // Display results (don't modify this part)
 console.log("=== Exercise 3 Results ===");
